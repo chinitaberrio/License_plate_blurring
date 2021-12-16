@@ -246,16 +246,16 @@ class Ui_MainWindow(object):
 
                 capture.release()
                 out.release()
-                # yolo_model.close_session()
+                yolo_model.close_session()
 
-                self.progressLabel.setText("Adding Audio to the Outputfile")
+                self.progressLabel.setText("Encoding h264")
                 temp_output = self.output_path.split("/")
                 temp_output[-1] = temp_output[-1].split(".")[0] + "_.mp4"
                 temp_output = "/".join(temp_output)
-                os.system(
-                    f'ffmpeg -i "{self.output_path}" -i "{self.input_path}" -map 0:v -map 1:a -c copy -shortest "{temp_output}"')
+                os.system(f'ffmpeg -i "{self.output_path}" -vcodec libx264 "{temp_output}"')
                 os.remove(self.output_path)
                 os.rename(temp_output, self.output_path)
+                
 
                 self.progressLabel.setText("Finished")
                 break
